@@ -1,54 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Travel App</title>
+    <link rel="stylesheet" href="styles/styles.css">
+    <title>Document</title>
 </head>
-
 <body>
-    <script src='https://code.jquery.com/jquery-3.2.1.min.js' integrity='sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=' crossorigin='anonymous'></script>
+    <div class="wrapper">
+        
+        <form id="countryParams">
+            <div class="slidecontainer">
+                <label for="happinessValue">How Happy?</label>
+                <input type="range" min="2500" max="7600" step="500" class="slider" id="happinessValue" name="happinessValue">
+                <!-- <input type="text" placeholder="How many days do you plan to stay" id="duration"> -->
+            </div>
+            <!-- <input type="submit"> -->
+        </form>
+    </div> 
+    
+    <script src='https://code.jquery.com/jquery-3.2.1.min.js' integrity='sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4='crossorigin='anonymous'></script>
 
-    <script>
-
-        //empty object
-        const travelApp = {}
-
-
-        //function to get the data from the api 
-        travelApp.getFacts = () => {
-            $.ajax({
-                url: "http://inqstatsapi.inqubu.com",
-                dataType: "json",
-                method: "GET",
-                data: {
-                    api_key: "9524b504493adb49",
-                    cmd: "getWorldData",
-                    data: "death_rate,bigmac_index,happiness_index,tourist_arrivals",
-                    format: "json"
-                }
-            }).then(function (res) {
-                const factDatabase = res;
-                console.log(factDatabase);
-
-            });
-        }
-
-        //creates function to launch our app on page load
-        travelApp.init = () => {
-            travelApp.getFacts();
-            console.log(travelApp)
-        }
-
-        //document ready function
-        $(function () {
-            travelApp.init();
-        });
-
-    </script>
-
+    <script src="scripts/script.js"></script>
 </body>
-
 </html>
