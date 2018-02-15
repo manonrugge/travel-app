@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Travel App</title>
+</head>
+
+<body>
+    <script src='https://code.jquery.com/jquery-3.2.1.min.js' integrity='sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=' crossorigin='anonymous'></script>
+
+    <script>
+
+        //empty object
+        const travelApp = {}
+
+
+        //function to get the data from the api 
+        travelApp.getFacts = () => {
+            $.ajax({
+                url: "http://inqstatsapi.inqubu.com",
+                dataType: "json",
+                method: "GET",
+                data: {
+                    api_key: "9524b504493adb49",
+                    data: "death_rate,bigmac_index,happiness_index,tourist_arrivals",
+                    cmd: "getWorldData",
+                    format: "json"
+                }
+            }).then(function (res) {
+                const factDatabase = res;
+                console.log(factDatabase);
+
+            });
+        }
+
+        //creates function to launch our app on page load
+        travelApp.init = () => {
+            travelApp.getFacts();
+            console.log(travelApp)
+        }
+
+        //document ready function
+        $(function () {
+            travelApp.init();
+        });
+
+    </script>
+
+</body>
+
+</html>
