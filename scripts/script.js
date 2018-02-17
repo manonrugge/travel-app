@@ -11,7 +11,8 @@ const travelSearch = {}
 
 travelSearch.filterCountry = () => {
 
-    $("form").on("change", function () {
+    $("form").on("submit", function (event) {
+        event.preventDefault();
         userHappiness = $("input[name=happinessValue]").val();
         console.log(userHappiness);
 
@@ -21,13 +22,15 @@ travelSearch.filterCountry = () => {
         userInternet = $("input[name=internetValue]").val();
         console.log(userInternet);
 
+
+        // userInputs = userHappiness, userForest, userInternet;
         travelSearch.getCountry(userHappiness);
     })
 }
 
 //function to get the location data from the api 
 
-travelSearch.getCountry = (userHappiness) => {
+travelSearch.getCountry = (userInputs) => {
     $.ajax({
         url: "http://inqstatsapi.inqubu.com",
         dataType: "json",
@@ -45,40 +48,53 @@ travelSearch.getCountry = (userHappiness) => {
         const mappedCountries = res.map(function(index){
             return {
                 countryName: index.countryName,
+                countryCode: index.countryCode,
                 happiness_index: index.happiness_index,
                 forest_area_percent: index.forest_area_percent,
                 density: index.density,
                 corruption_index: index.corruption_index,
                 bigmac_index: index.bigmac_index,
                 internetusers_percent: index.internetusers_percent
-
             }
         });
         console.log(mappedCountries);
 
         const filterdCountries = mappedCountries.filter(function(item){
             return item.internetusers_percent < (userInternet + 25) && item.internetusers_percent > (userInternet - 25);
-            // return item.corruption_index < (userCorruption + 20) && item.corruption_index > (userCorruption - 20); 
         }).filter(function (item) {
             return item.forest_area_percent < (userForest + 15) && item.forest_area_percent > (userForest - 15);
         }).filter(function(item) {
             return item.happiness_index < (userHappiness + 500) && item.happiness_index > (userHappiness - 500);
         });
-        
-        travelSearch.displayCountry(filterdCountries);
-    });
 
+        travelSearch.displayCountry(filterdCountries);
+        console.log(filterdCountries);
+    });
 }
 
+
+
+
 travelSearch.displayCountry = (filterdCountries) => {
-    filterdCountries.forEach(function(item){
-        $('body').text(item.countryName);
-        // console.log(item);
-    });
-    // console.log(filterdCountries);
+    if(filterdCountries.length === 0) {
+        $(".result-container").append("<p>Sorry there are no countries with those requirements. Sort Again!</p> <button>Sort!</button>");
+    } else {
+        filterdCountries.forEach(function(item){
+            // $('body').text(item.countryName);
+            console.log(item);
+            // event.preventDefault();
+            $(".result-container").append(`<img src="images/flags/${item.countryCode}.png">`);
+        });
+    };
 
 };
 
+
+$('button').on('click', function () {
+    $('html').animate({
+        scrollTop: $('#scrollStop').offset().top
+    }, 1000);
+});
 
 
 //creates function to launch our app on page load
