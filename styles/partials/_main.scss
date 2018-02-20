@@ -3,6 +3,8 @@
     width: 60%;
     border-radius: none;   
     outline: none;
+    height: 5px;
+    -webkit-appearance: none;
     -webkit-transition: .2s;
     transition: opacity .2s;
 }
